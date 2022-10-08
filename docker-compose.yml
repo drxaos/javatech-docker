@@ -7,9 +7,27 @@ volumes:
 services:
 
   # TODO сервис nginx на локальном порту 22000, смапить nginx-data/upstreams.conf в /etc/nginx/conf.d/upstreams.conf
+  # 1 порт указывает на локальную машину 2 порт - это портс внутри контейнера
+  # в volume 1 путь это путь на локальной магине - 2 путь это путь в контейнере
+  # volume 3 способа 1: -v /data 2: volume: /data 3: volume: /hostPath:containerPath
+
+  # CMD, аналогично команде RUN, можно использовать для запуска других команд. В отличие от RUN,
+  # эту команду нельзя использовать при сборке, она выполняет команду при запуске контейнера.
+
+  # From повторяется потому что первая часть файла собирает проект а вторая запускает
+
+  nginx:
+    container_name: nginx.service
+    build:
+      context: nginx
+    ports:
+      - 22000:80
+    volumes:
+      - ./nginx-data/upstreams.conf:/etc/nginx/conf.d/upstreams.conf
 
   postgres:
     container_name: postgres.service
+    restart: always
     build:
       context: postgres
     environment:
@@ -38,5 +56,14 @@ services:
       - 22003:7000
     volumes:
       - ./backend1-data/application.properties:/app/application.properties
+
+  backend2:
+    container_name: backend2.service
+    build:
+      context: backend
+    ports:
+      - 22004:7000
+    volumes:
+      - ./backend2-data/application.properties:/app/application.properties
 
   # TODO сервис backend2 на локальном порту 22004, внешний конфиг взять из backend2-data
