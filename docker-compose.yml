@@ -49,4 +49,11 @@ services:
     volumes:
       - ./backend1-data/application.properties:/app/application.properties
 
-  # TODO сервис backend2 на локальном порту 22004, внешний конфиг взять из backend2-data
+  backend2:
+    container_name: backend2.service
+    build:
+      context: backend
+    ports:
+      - 22004:7000
+    volumes:
+      - ./backend2-data/application.properties:/app/application.properties
