@@ -7,6 +7,14 @@ volumes:
 services:
 
   # TODO сервис nginx на локальном порту 22000, смапить nginx-data/upstreams.conf в /etc/nginx/conf.d/upstreams.conf
+  nginx:
+    container_name: nginx.service
+    build:
+      context: nginx
+    ports:
+      - 22000:80
+    volumes:
+      - ./nginx-data/upstreams.conf:/etc/nginx/conf.d/upstreams.conf
 
   postgres:
     container_name: postgres.service
@@ -41,3 +49,11 @@ services:
       - ./backend1-data/application.properties:/app/application.properties
 
   # TODO сервис backend2 на локальном порту 22004, внешний конфиг взять из backend2-data
+  backend2:
+    container_name: backend2.service
+    build:
+      context: backend
+    ports:
+      - 22004:7000
+    volumes:
+      - ./backend2-data/application.properties:/app/application.properties
