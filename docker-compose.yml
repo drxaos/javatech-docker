@@ -8,7 +8,7 @@ services:
 
   # TODO ✅ сервис nginx на локальном порту 22000, смапить nginx-data/upstreams.conf в /etc/nginx/conf.d/upstreams.conf
 
- nginx:
+  nginx:
     container_name: nginx.service
     build: 
       context: nginx
@@ -56,5 +56,5 @@ services:
       - 22004:7000
     volumes:
       - ./backend2-data/application.properties:/app/application.properties
-  
+
   # TODO ✅ сервис backend2 на локальном порту 22004, внешний конфиг взять из backend2-data
