@@ -51,4 +51,4 @@ volumes:
 ### -d - запуск в фоновом режиме
 
 # Запустите контейнеры и выведите на экран их логи
-![Логотип GitHub](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
+![Логотип GitHub](https://github.com/tclutin/javatech-docker/blob/master/images/1.jpg)
