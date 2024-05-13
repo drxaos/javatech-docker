@@ -51,4 +51,54 @@ volumes:
 ### -d - запуск в фоновом режиме
 
 # Запустите контейнеры и выведите на экран их логи
-![Логотип GitHub](https://github.com/tclutin/javatech-docker/blob/master/images/1.jpg)
+![photo](https://github.com/tclutin/javatech-docker/blob/master/images/1.jpg)
+
+# Напишите Dockerfile для сервиса nginx. Добавьте сервис в docker-compose.yml
+dockerfile
+```json
+FROM nginx
+COPY ./default.conf /etc/nginx/conf.d/default.conf
+COPY ./50x.html /etc/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+docker-compose
+```json
+services:
+  nginx:
+    container_name: nginx.service
+    build:
+      context: ./nginx
+    ports:
+      - 22000:80
+    volumes:
+      - ./nginx-data/upstreams.conf:/etc/nginx/conf.d/upstreams.conf
+```
+# Настроить backend2, настроить upstream
+docker-compose
+```json
+  backend2:
+    container_name: backend2.service
+    build:
+      context: backend
+    ports:
+      - "22004:7000"
+    volumes:
+      - ./backend2-data/application.properties:/app/application.properties
+```
+
+upstream
+```json
+upstream backend {
+  server backend1.service:7000;
+  server backend2.service:7000;
+}
+
+upstream frontend {
+  server frontend.service:3000;
+}
+```
+![photo](https://github.com/tclutin/javatech-docker/blob/master/images/2.jpg)
+
+
+Все работает!
